@@ -1,9 +1,9 @@
 var mongoose = require('mongoose'),
     Schema = mongoose.Schema;
 
-var personsModel = new mongoose.Schema({
+var orderModel = new mongoose.Schema({
     name : {type:String},
     lastName: {type:String}
-},{collection:'person'});
-module.exports= mongoose.model('person',personsModel);
+},{collection:'orders'});
+module.exports= mongoose.model('order',orderModel);
 //module.exports = Person;
