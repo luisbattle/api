@@ -5,17 +5,26 @@ var express = require('express'),
 
 var db = mongoose.connect('mongodb://localhost/orders', { useNewUrlParser: true });
 
-var person = require('./models/personModel');
-var order = require('./models/ordersModel');
+var Person = require('./models/personModel');
+var Order = require('./models/ordersModel');
 
 var app = express();
 var port=process.env.PORT || 3000;
 
+app.use(bodyParser.urlencoded({extended:true}));
+app.use(bodyParser.json());
+
 // Ruta persona
 var personRouter = express.Router()
+    .post('/person', function(req,res){
+        var person = new Person(req.body);
+        console.log(person);
+        person.save();
+        res.send(person);
+    })
     .get('/person',function(req,res){
         var query = req.query;
-        person.find(query, function(err,data){
+        Person.find(query, function(err,data){
             if(data.length==0)
                 console.log('no record found')
             if(err){
@@ -31,7 +40,7 @@ var personRouter = express.Router()
 personRouter
     .get('/person/id/:personId',function(req,res){
         //person.findById(req.route.)
-        person.findById(req.params.personId, function(err,data){
+        Person.findById(req.params.personId, function(err,data){
             if(data.length==0)
                 console.log('no record found')
             if(err){
@@ -45,7 +54,7 @@ personRouter
 // Orders
 var orderRouter =  express.Router()
     .get('/orders' , function(err,res){
-        order.find(function(err,data){
+        Order.find(function(err,data){
             if(err)
                 res.status(500).send(err);
             if(data.length==0)
@@ -56,7 +65,7 @@ var orderRouter =  express.Router()
 
     orderRouter
     .get('/order/id/:orderId' , function(req,res){
-        order.findById(req.params.orderId,function(err,data){
+        Order.findById(req.params.orderId,function(err,data){
             if(err)
                 res.status(500).send(err);
             if(data.length==0)
