@@ -9,6 +9,7 @@
   "author": "LB",
   "license": "MIT",
   "dependencies": {
+    "body-parser": "^1.19.0",
     "express": "^4.17.1",
     "gulp": "^4.0.2",
     "gulp-nodemon": "^2.4.2",

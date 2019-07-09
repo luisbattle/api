@@ -1,5 +1,6 @@
 var express = require('express'),
-    mongoose = require('mongoose');
+    mongoose = require('mongoose'),
+    bodyParser = require('body-parser');
 
 
 var db = mongoose.connect('mongodb://localhost/orders', { useNewUrlParser: true });
@@ -59,6 +60,20 @@ var orderRouter = express.Router()
         });
     });
 
+    var orderRouter = express.Router()
+    .get('/order/id/:orderId',function(req,res){
+        var query = req.query;
+        order.findById(req.params.orderId, function(err,data){
+            if(data.length==0)
+                console.log('no record found')
+            if(err){
+                res.status(500).send(err);
+                console.log(err);
+            }
+            res.json(data);
+            console.log(query);
+        });
+    });
 
 
 
