@@ -15,30 +15,7 @@ app.use(bodyParser.urlencoded({extended:true}));
 app.use(bodyParser.json());
 
 personRouter = require('./Routes/personRoutes')(Person);
-
-// Orders
-var orderRouter =  express.Router()
-    .get('/orders' , function(err,res){
-        Order.find(function(err,data){
-            if(err)
-                res.status(500).send(err);
-            if(data.length==0)
-                console.log('No record found');
-            res.json(data);
-        })
-    })
-
-    orderRouter
-    .get('/order/id/:orderId' , function(req,res){
-        Order.findById(req.params.orderId,function(err,data){
-            if(err)
-                res.status(500).send(err);
-            if(data.length==0)
-                console.log('No record found');
-            res.json(data);
-            console.log('entro a la orden');
-        })
-    })
+orderRouter = require('./Routes/orderRouter')(Order);
 
 app.use('/api',personRouter, orderRouter);
 
